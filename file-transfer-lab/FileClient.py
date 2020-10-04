@@ -10,8 +10,6 @@ import params
 
 from framedSock import framedSend, framedReceive
 
-
-
 switchesVarDefaults = (
     (('-s', '--server'), 'server', "127.0.0.1:50001"),
     (('-d', '--debug'), "debug", False), # boolean (set if present)
@@ -20,6 +18,14 @@ switchesVarDefaults = (
 
 
 progname = "framedClient"
-paramMap = params.parseParams(switchesVarDefaults)
+paramMap = params()
 
 server, usage, debug  = paramMap["server"], paramMap["usage"], paramMap["debug"]
+if usage:
+    params.usage()
+try:
+    serverHost, serverPort = re.split(":", server)
+    serverPort = int(serverPort)
+except:
+    print(% server)
+    sys.exit(1)
