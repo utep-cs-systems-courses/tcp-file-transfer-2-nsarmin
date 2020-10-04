@@ -31,6 +31,7 @@ except:
     sys.exit(1)
 addrFamily = socket.AF_INET
 socktype = socket.SOCK_STREAM
+addPort = (serverHost, serverPort)
 
 s = socket.socket(addrFamily, socktype)
 
@@ -39,7 +40,6 @@ if s is None:
     sys.exit(1)
 
 s.connect(addrPort)
-
 file_to_send = input("type file to send : ")
 
 def utf8len(s):
@@ -48,9 +48,11 @@ def utf8len(s):
 if exists(file_to_send):
     file_copy = open(file_to_send, 'r') #open file
     file_data = file_copy.read()    #save contents of file
+    #print(file_data)
     if utf8len(file_data) == 0:
         sys.exit(0)
     else:
         framedSend(s, file_data.encode(), debug)
         print("received:", framedReceive(s, debug))
-
+else:
+    sys.exit(0)
