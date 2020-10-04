@@ -18,7 +18,7 @@ switchesVarDefaults = (
 
 
 progname = "framedClient"
-paramMap = params()
+paramMap = params.parseParams(switchesVarDefaults)
 
 server, usage, debug  = paramMap["server"], paramMap["usage"], paramMap["debug"]
 if usage:
@@ -27,5 +27,30 @@ try:
     serverHost, serverPort = re.split(":", server)
     serverPort = int(serverPort)
 except:
-    print(% server)
+    print("Can't parse server:port from '%s'" % server)
     sys.exit(1)
+addrFamily = socket.AF_INET
+socktype = socket.SOCK_STREAM
+
+s = socket.socket(addrFamily, socktype)
+
+if s is None:
+    print('could not open socket')
+    sys.exit(1)
+
+s.connect(addrPort)
+
+file_to_send = input("type file to send : ")
+
+def utf8len(s):
+    return len(s.encode('utf-8'))
+
+if exists(file_to_send):
+    file_copy = open(file_to_send, 'r') #open file
+    file_data = file_copy.read()    #save contents of file
+    if utf8len(file_data) == 0:
+        sys.exit(0)
+    else:
+        framedSend(s, file_data.encode(), debug)
+        print("received:", framedReceive(s, debug))
+
