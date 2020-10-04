@@ -21,7 +21,7 @@ if paramMap['usage']:
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # listener socket
 bindAddr = ("127.0.0.1", listenPort)
 lsock.bind(bindAddr)
-lsock.listen(7)
+lsock.listen(5)
 print("listening on:", bindAddr)
 
 sock, addr = lsock.accept()
@@ -32,6 +32,7 @@ print("connection rec'd from", addr)
 from framedSock import framedSend, framedReceive
 
 while True:
+    payload = framedReceive(sock, debug)
     if debug: print("rec'd: ", payload)
     if not payload:
         break
