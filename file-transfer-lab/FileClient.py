@@ -19,7 +19,7 @@ switchesVarDefaults = (
 )
 
 
-progname = "FileClient"
+progname = "framedClient"
 paramMap = params.parseParams(switchesVarDefaults)
 
 server, usage, debug  = paramMap["server"], paramMap["usage"], paramMap["debug"]
@@ -49,36 +49,20 @@ s.connect(addrPort)
 
 file_to_send = input("type file to send : ")
 
+def utf8len(s):
+    return len(s.encode('utf-8'))
+
 if exists(file_to_send):
-    file_copy = open(file_to_send, 'rb') #open file
+    print("hello")
+    file_copy = open(file_to_send, 'r') #open file
     file_data = file_copy.read()    #save contents of file
-    if len(file_data) == 0:
-        print("cannot send empty file")
+    #print(file_data)
+    if utf8len(file_data) == 0:
         sys.exit(0)
     else:
-        file_name = input("give us file name ")
-        framedSend(s, file_name.encode(), debug)
-        file_exists = framedReceive(s, debug)
-        file_exists = file_exists.decode()
-        if file_exists == 'True':
-            print("file already exists in server")
-            sys.exit(0)
-        else:
-            try:
-                framedSend(s, file_data, debug)
-            except:
-                print("------------------------------")
-                print("connection lost while sending.")
-                print("------------------------------")
-                sys.exit(0)
-            try:
-                framedReceive(s, debug)
-            except:
-                print("------------------------------")
-                print("connection lost while receiving.")
-                print("------------------------------")
-                sys.exit(0)
+        framedSend(s, file_data.encode(), debug)
+        print("received:", framedReceive(s, debug))
 
 else:
-    print("file does not exist.")
     sys.exit(0)
+
