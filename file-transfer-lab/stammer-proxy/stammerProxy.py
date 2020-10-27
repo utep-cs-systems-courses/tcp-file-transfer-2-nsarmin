@@ -17,7 +17,7 @@ switchesVarDefaults = (
     (('-d', '--debug'), "debug", False), # boolean (set if present)
     (('-?', '--usage'), "usage", False), # boolean (set if present)
     (('-p', '--pausedelay'), 'pauseDelay', 0.5)
-    )
+)
 
 
 progname = "stammerProxy"
@@ -41,7 +41,7 @@ except:
     print("Can't parse listen port from %s" % listenPort)
     sys.exit(1)
 
-print ("%s: listening on %s, will forward to %s\n" % 
+print ("%s: listening on %s, will forward to %s\n" %
        (progname, listenPort, server))
 
 
@@ -94,8 +94,8 @@ class Fwd:
         if len(self.buf) == 0 and self.inClosed:
             self.outSock.shutdown(SHUT_WR)
             self.conn.fwdDone(self)
-            
-    
+
+
 connections = set()
 
 class Conn:
@@ -128,12 +128,12 @@ class Conn:
             try:
                 s.close()
             except:
-                pass 
+                pass
         connections.remove(self)
     def doErr(self):
         print("forwarder from client %s failing due to error" % repr(self.caddr))
         die()
-                
+
 class Listener:
     def __init__(self, bindaddr, saddr, addrFamily=AF_INET, socktype=SOCK_STREAM): # saddr is address of server
         self.bindaddr, self.saddr = bindaddr, saddr
@@ -161,7 +161,7 @@ class Listener:
         return None
     def checkErr(self):
         return self.lsock
-        
+
 
 l = Listener(("0.0.0.0", listenPort), (serverHost, serverPort))
 
@@ -195,6 +195,3 @@ while 1:
         wmap[sock].doSend()
     for sock in xset:
         xmap[sock].doErr()
-
-    
-

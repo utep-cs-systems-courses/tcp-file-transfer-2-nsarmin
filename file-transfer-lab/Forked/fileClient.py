@@ -4,7 +4,7 @@
 
 
 import socket, sys, re, os
-from framedSock import framedSend, framedReceive
+from fileSock import framedSend, framedReceive
 
 sys.path.append("../../lib") #for params
 import params
