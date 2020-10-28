@@ -1,7 +1,4 @@
 #! /usr/bin/env python3
-
-#Author: Jose Gallardo
-
 import socket, sys, re, os, threading
 from threading import Thread, Lock
 from encapFramedSock import EncapFramedSock
